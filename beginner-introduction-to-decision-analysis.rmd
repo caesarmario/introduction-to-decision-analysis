@@ -1,0 +1,431 @@
+---
+jupyter:
+  colab:
+    name: \[Beginner\] Introduction to Decision Analysis
+    toc_visible: true
+  kernelspec:
+    display_name: R
+    language: R
+    name: ir
+  language_info:
+    codemirror_mode: r
+    file_extension: .r
+    mimetype: text/x-r-source
+    name: R
+    pygments_lexer: r
+    version: 4.0.5
+  nbformat: 4
+  nbformat_minor: 4
+---
+
+::: {.cell .markdown id="4Uk8HCup5_eS"}
+# 1. Introduction 👋 {#1-introduction-}
+
+```{=html}
+<center>
+<img src="https://images.unsplash.com/photo-1533073526757-2c8ca1df9f1c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Network" width="70%">
+</center>
+```
+`<br>`{=html}
+
+## Objectives of Notebook 📌 {#objectives-of-notebook-}
+
+👉 **This notebook aims to:**
+
+-   Describe the definition of decision analysis using decision tree.
+-   Demonstrate various examples of decision analysis using R.
+
+------------------------------------------------------------------------
+
+**Like this notebook? You can support me by giving upvote** 😆👍🔼
+`<br>`{=html} 👉 *More about myself:
+[linktr.ee/caesarmario\_](http://linktr.ee/caesarmario_)*
+:::
+
+::: {.cell .markdown id="bO9AbAkQ6B7c"}
+## 1.1 Basic Definitions 📖 {#11-basic-definitions-}
+
+> A **decision tree** is a chronological representation of the decision
+> problem. Each decision tree has **two types of nodes**. ***Round
+> nodes*** correspond to the states of nature. While ***square nodes***
+> correspond to the decision alternatives.`<br>`{=html}`<br>`{=html} The
+> *branches leaving each round node* represent the **different states of
+> nature** while the *branches leaving each square node* represent the
+> **different decision alternatives**.`<br>`{=html}`<br>`{=html} At the
+> *end of each limb* of a tree are the *payoffs* attained from the
+> series of branches making up that limb. `<br>`{=html}`<br>`{=html} The
+> **expected value** of a decision alternative is the sum of weighted
+> payoffs for the decision alternative.
+
+`<br>`{=html} `<center>`{=html}
+`<img src="https://i.imgur.com/j3xmXIC.png" alt="DT example" width="50%">`{=html}`<br>`{=html}
+`<i>`{=html}🖼 Decision Tree Example`</i>`{=html} `</center>`{=html}
+`<br>`{=html}
+:::
+
+::: {.cell .markdown id="T-4d8Khz6aHV"}
+# 2. Importing Libraries 📚 {#2-importing-libraries-}
+
+👉 This section will install some libraries that used to create decision
+tree diagram.
+:::
+
+::: {.cell .code _kg_hide-output="true" execution="{\"iopub.status.busy\":\"2022-02-14T12:26:20.631455Z\",\"iopub.status.idle\":\"2022-02-14T12:32:29.297972Z\",\"iopub.execute_input\":\"2022-02-14T12:26:20.633475Z\"}" id="v4EAAXJ958CU" trusted="true"}
+``` {.R}
+install.packages('data.tree')
+install.packages('yaml')
+install.packages('DiagrammeR')
+
+library(data.tree)
+library(yaml)
+library(DiagrammeR)
+```
+:::
+
+::: {.cell .markdown id="17VQPNZD6yYI"}
+# 3. Decision Analysis {#3-decision-analysis}
+
+👉 This section will create decision tree diagram, interpret the results
+from various examples.
+:::
+
+::: {.cell .markdown id="b0qWQ5p1T9y5"}
+## 3.1 Example 1 1️⃣ {#31-example-1-1️⃣}
+
+> Burger Prince Restaurant is contemplating opening a new restaurant on
+> Main Street. It has three different models, each with a different
+> seating capacity. Burger Prince estimates that the average number of
+> customers per hour will be 80, 100, or 120. The payoff table for the
+> three models are described below:
+
+```{=html}
+<table>
+<thead>
+  <tr>
+    <th rowspan="2">Model</th>
+    <th colspan="3">Average Number of Customers Per Hour</th>
+  </tr>
+  <tr>
+    <th>s1 = 80<br>(p = 0.4)</th>
+    <th>s2 = 100<br>(p = 0.2)</th>
+    <th>s3 = 120<br>(p = 0.4)</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Model A</td>
+    <td>10,000</td>
+    <td>15,000</td>
+    <td>14,000</td>
+  </tr>
+  <tr>
+    <td>Model B</td>
+    <td>8,000</td>
+    <td>18,000</td>
+    <td>12,000</td>
+  </tr>
+  <tr>
+    <td>Model C</td>
+    <td>6,000</td>
+    <td>16,000</td>
+    <td>21,000</td>
+  </tr>
+</tbody>
+</table>
+```
+`<br>`{=html}`<br>`{=html}
+
+👉 **Solution:** `<br>`{=html} Based on the payoff table given, the
+decision node will be drawn as follows:
+`<center>`{=html}`<img src="https://i.imgur.com/NfrAgOA.png" width="70%">`{=html}`</center>`{=html}`<br>`{=html}
+
+👉 It can be seen that Model C has high EV. `<br>`{=html} 👉 After drawing
+the decision tree, let\'s construct the decision tree in `yaml` file.
+
+    name: Restaurant
+    type: decision
+    Model A:
+        type: chance
+        Customer 80:
+            type: terminal
+            p: 0.4
+            payoff: 10000
+        Customer 100:
+            type: terminal
+            p: 0.2
+            payoff: 15000
+        Customer 120:
+            type: terminal
+            p: 0.4
+            payoff: 14000
+    Model B:
+        type: chance
+        Customer 80:
+            type: terminal
+            p: 0.4
+            payoff: 8000
+        Customer 100:
+            type: terminal
+            p: 0.2
+            payoff: 18000
+        Customer 120:
+            type: terminal
+            p: 0.4
+            payoff: 12000
+    Model C:
+        type: chance
+        Customer 80:
+            type: terminal
+            p: 0.4
+            payoff: 6000
+        Customer 100:
+            type: terminal
+            p: 0.2
+            payoff: 16000
+        Customer 120:
+            type: terminal
+            p: 0.4
+            payoff: 21000
+            
+
+👉 Now let\'s construct the decision tree in R.
+:::
+
+::: {.cell .code execution="{\"iopub.status.busy\":\"2022-02-14T12:32:29.301924Z\",\"iopub.status.idle\":\"2022-02-14T12:32:29.411185Z\",\"iopub.execute_input\":\"2022-02-14T12:32:29.359178Z\"}" id="NrRaVqNDAQ0E" outputId="532f117d-77c7-4944-c5af-e1bc1d3ac807" trusted="true"}
+``` {.R}
+fileName <- '../input/yaml-file/Burger prince.yaml'
+l <- yaml.load_file(fileName)
+jl <- as.Node(l)
+print(jl, "type", "payoff", "p")
+```
+:::
+
+::: {.cell .code execution="{\"iopub.status.busy\":\"2022-02-14T12:32:29.413652Z\",\"iopub.status.idle\":\"2022-02-14T12:32:29.468431Z\",\"iopub.execute_input\":\"2022-02-14T12:32:29.415092Z\"}" trusted="true"}
+``` {.R}
+payoff <- function(node) {
+  if (node$type == 'chance') node$payoff <- sum(sapply(node$children, function(child) child$payoff * child$p))
+  else if (node$type == 'decision') node$payoff <- max(sapply(node$children, function(child) child$payoff))
+}
+
+jl$Do(payoff, traversal = "post-order", filterFun = isNotLeaf)
+
+decision <- function(x) {
+  po <- sapply(x$children, function(child) child$payoff)
+  x$decision <- names(po[po == x$payoff])
+}
+
+jl$Do(decision, filterFun = function(x) x$type == 'decision')
+
+GetNodeLabel <- function(node) switch(node$type, 
+                                      terminal = paste0( '$ ', format(node$payoff, scientific = FALSE, big.mark = ",")),
+                                      paste0('EV/n', '$ ', format(node$payoff, scientific = FALSE, big.mark = ",")))
+
+GetEdgeLabel <- function(node) {
+  if (!node$isRoot && node$parent$type == 'chance') {
+    label = paste0(node$name, " (", node$p, ")")
+  } else {
+    label = node$name
+  }
+  return (label)
+}
+
+GetNodeShape <- function(node) switch(node$type, decision = "box", chance = "circle", terminal = "none")
+
+
+SetEdgeStyle(jl, fontname = 'helvetica', label = GetEdgeLabel)
+SetNodeStyle(jl, fontname = 'helvetica', label = GetNodeLabel, shape = GetNodeShape)
+
+jl$Do(function(x) SetEdgeStyle(x, color = "red", inherit = FALSE), 
+      filterFun = function(x) !x$isRoot && x$parent$type == "decision" && x$parent$decision == x$name)
+
+SetGraphStyle(jl, rankdir = "LR")
+```
+:::
+
+::: {.cell .code execution="{\"iopub.status.busy\":\"2022-02-14T12:32:29.472254Z\",\"iopub.status.idle\":\"2022-02-14T12:32:29.495286Z\",\"iopub.execute_input\":\"2022-02-14T12:32:29.473916Z\"}" trusted="true"}
+``` {.R}
+print(jl, "type", "payoff", "p")
+```
+:::
+
+::: {.cell .code execution="{\"iopub.status.busy\":\"2022-02-14T12:32:29.498938Z\",\"iopub.status.idle\":\"2022-02-14T12:32:31.249264Z\",\"iopub.execute_input\":\"2022-02-14T12:32:29.500514Z\"}" trusted="true"}
+``` {.R}
+plot(jl)
+```
+:::
+
+::: {.cell .markdown id="OLh0JkpXVjGN"}
+👉 From the plot result, it can be seen that model C has highest EV
+compared to other models.
+:::
+
+::: {.cell .markdown id="emO_2YKKUKtR"}
+## 3.2 Example 2 2️⃣ {#32-example-2-2️⃣}
+
+> You are about to introduce fruit gift box, which is a great gift for
+> birthday or to wish someone a fast recovery. You are very confident
+> that this fruit gift box will be a great success and want to introduce
+> it immediately without advertising. `<br>`{=html} Your business
+> partner, Bambang sees it differently and he suggests launching an
+> advertising campaign. The advertising campaign will cost RM 500 and if
+> successful will produce RM 5,000 revenue. If the campaign is
+> unsuccessful (which there is a 25% chance it would), the revenue is
+> estimated at only RM 1,000. If no advertising is used, the revenue is
+> estimated at RM 3,000 with probability of 0.7 if customers are
+> receptive to this fruit gift box and RM 1,000 with probability of 0.3
+> if they are not. `<br>`{=html} If no advertising is used, you are
+> thinking to ask Katie to conduct a market survey. The survey cost is
+> RM 250. The survey will be positive or negative, indicating either a
+> good or poor response from customers. Past experiences suggested that
+> the probability of positive is 0.7. The probabilities when no
+> advertising is used will then be revised based on whether the survey
+> is positive or negative. If the survey is positive, the probability
+> that a customer is receptive to this fruit gift box is 0.85. If the
+> survey is negative, the probability that a customer is receptive to
+> this fruit gift box is 0.45.
+
+`<br>`{=html}
+
+👉 **Solution:** `<br>`{=html} Based on the scenario above, the decision
+tree in `yaml` file will be as follows:
+
+    name: Florist Gift Box
+    type: decision
+    Advertisement:
+        type: chance
+        Success:
+            type: terminal
+            p: 0.75
+            payoff: 4500
+        Not success:
+            type: terminal
+            p: 0.25
+            payoff: 500
+    Market survey:
+        type: chance
+        Positive:
+            type: chance
+            p: 0.7
+            Receptive:
+                type: terminal
+                p: 0.85
+                payoff: 2750
+            Not Receptive:
+                type: terminal
+                p: 0.15
+                payoff: 750
+        Negative:
+            type: chance
+            p: 0.3
+            Receptive:
+                type: terminal
+                p: 0.45
+                payoff: 2750
+            Not Receptive:
+                type: terminal
+                p: 0.55
+                payoff: 750
+
+👉 Now let\'s construct the decision tree in R.
+:::
+
+::: {.cell .code execution="{\"iopub.status.busy\":\"2022-02-14T12:32:31.251828Z\",\"iopub.status.idle\":\"2022-02-14T12:32:31.288086Z\",\"iopub.execute_input\":\"2022-02-14T12:32:31.253279Z\"}" trusted="true"}
+``` {.R}
+fileName <- '../input/yaml-file/Florist Gift Box.yaml'
+l <- yaml.load_file(fileName)
+jl <- as.Node(l)
+print(jl, "type", "payoff", "p")
+```
+:::
+
+::: {.cell .code execution="{\"iopub.status.busy\":\"2022-02-14T12:32:31.29071Z\",\"iopub.status.idle\":\"2022-02-14T12:32:31.343454Z\",\"iopub.execute_input\":\"2022-02-14T12:32:31.292222Z\"}" id="pP-e8qCUUNVO" trusted="true"}
+``` {.R}
+payoff <- function(node) {
+  if (node$type == 'chance') node$payoff <- sum(sapply(node$children, function(child) child$payoff * child$p))
+  else if (node$type == 'decision') node$payoff <- max(sapply(node$children, function(child) child$payoff))
+}
+
+jl$Do(payoff, traversal = "post-order", filterFun = isNotLeaf)
+
+decision <- function(x) {
+  po <- sapply(x$children, function(child) child$payoff)
+  x$decision <- names(po[po == x$payoff])
+}
+
+jl$Do(decision, filterFun = function(x) x$type == 'decision')
+
+GetNodeLabel <- function(node) switch(node$type, 
+                                      terminal = paste0( 'RM ', format(node$payoff, scientific = FALSE, big.mark = ",")),
+                                      paste0('EV/n', 'RM ', format(node$payoff, scientific = FALSE, big.mark = ",")))
+
+GetEdgeLabel <- function(node) {
+  if (!node$isRoot && node$parent$type == 'chance') {
+    label = paste0(node$name, " (", node$p, ")")
+  } else {
+    label = node$name
+  }
+  return (label)
+}
+
+GetNodeShape <- function(node) switch(node$type, decision = "box", chance = "circle", terminal = "none")
+
+
+SetEdgeStyle(jl, fontname = 'helvetica', label = GetEdgeLabel)
+SetNodeStyle(jl, fontname = 'helvetica', label = GetNodeLabel, shape = GetNodeShape)
+
+jl$Do(function(x) SetEdgeStyle(x, color = "red", inherit = FALSE), 
+      filterFun = function(x) !x$isRoot && x$parent$type == "decision" && x$parent$decision == x$name)
+
+SetGraphStyle(jl, rankdir = "LR")
+```
+:::
+
+::: {.cell .code execution="{\"iopub.status.busy\":\"2022-02-14T12:32:31.34617Z\",\"iopub.status.idle\":\"2022-02-14T12:32:31.366868Z\",\"iopub.execute_input\":\"2022-02-14T12:32:31.347714Z\"}" trusted="true"}
+``` {.R}
+print(jl, "type", "payoff", "p")
+```
+:::
+
+::: {.cell .code execution="{\"iopub.status.busy\":\"2022-02-14T12:32:31.369395Z\",\"iopub.status.idle\":\"2022-02-14T12:32:32.135972Z\",\"iopub.execute_input\":\"2022-02-14T12:32:31.370879Z\"}" trusted="true"}
+``` {.R}
+plot(jl)
+```
+:::
+
+::: {.cell .markdown id="_KRtK6hWrHnE"}
+👉 Based on the results of the decision tree compiled, it can be seen
+that the **EV for the use of advertisements is higher** than the EV of
+the market survey. `<br>`{=html} 👉 The **EV obtained for advertisement
+is RM 3,500, while the EV market survey is only RM 2,210**. Furthermore,
+suppose the gift box business chooses to conduct a market survey.
+`<br>`{=html} 👉 In that case, **a positive market survey will provide a
+greater EV than a negative market survey**. `<br>`{=html} 👉 It can be
+concluded that **the best decision for selling gift boxes based on the
+decision tree diagram above is the use of advertisements because the EV
+obtained is higher than the EV market survey**.
+:::
+
+::: {.cell .markdown id="TEqMf7oq6kB0"}
+# 4. References 🔗 {#4-references-}
+
+👉 **Book:**
+
+-   [Operations Research: Applications and Algorithms Fourth
+    Edition](https://www.amazon.com/Operations-Research-Applications-Algorithms-InfoTrac/dp/0534380581)
+:::
+
+::: {.cell .markdown id="qQaro7LM6lhd"}
+
+------------------------------------------------------------------------
+
+**Like this notebook? You can support me by giving upvote** 😆👍🔼
+`<br>`{=html} 👉 *More about myself:
+[linktr.ee/caesarmario\_](http://linktr.ee/caesarmario_)*
+`<br>`{=html}`<br>`{=html}
+
+```{=html}
+<center>
+    <img src="https://i.imgur.com/qLGcpSt.png" alt="WM">
+</center>
+```
+:::
