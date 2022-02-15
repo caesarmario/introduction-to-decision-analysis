@@ -19,6 +19,8 @@
 
 ## 🖋 About Repository:
 *   This repository contains Jupyter notebook file about decision analysis using R. Some examples of decision analysis also performed in this repository.
+*   There are 2 files, a Jupyter notebook file (`.ipynb`) and R markdown file (`.Rmd`).
+*   The examples (`.yaml` files) also provided in this repository.
 <br><br>
 
 ## 📌 Objectives
