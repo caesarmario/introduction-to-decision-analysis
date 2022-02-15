@@ -1,0 +1,36 @@
+name: Florist Gift Box
+type: decision
+Advertisement:
+    type: chance
+    Success:
+        type: terminal
+        p: 0.75
+        payoff: 4500
+    Not success:
+        type: terminal
+        p: 0.25
+        payoff: 500
+Market survey:
+    type: chance
+    Positive:
+        type: chance
+        p: 0.7
+        Receptive:
+            type: terminal
+            p: 0.85
+            payoff: 2750
+        Not Receptive:
+            type: terminal
+            p: 0.15
+            payoff: 750
+    Negative:
+        type: chance
+        p: 0.3
+        Receptive:
+            type: terminal
+            p: 0.45
+            payoff: 2750
+        Not Receptive:
+            type: terminal
+            p: 0.55
+            payoff: 750

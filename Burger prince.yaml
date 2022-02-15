@@ -1,0 +1,45 @@
+name: Restaurant
+type: decision
+Model A:
+    type: chance
+    Customer 80:
+        type: terminal
+        p: 0.4
+        payoff: 10000
+    Customer 100:
+        type: terminal
+        p: 0.2
+        payoff: 15000
+    Customer 120:
+        type: terminal
+        p: 0.4
+        payoff: 14000
+Model B:
+    type: chance
+    Customer 80:
+        type: terminal
+        p: 0.4
+        payoff: 8000
+    Customer 100:
+        type: terminal
+        p: 0.2
+        payoff: 18000
+    Customer 120:
+        type: terminal
+        p: 0.4
+        payoff: 12000
+Model C:
+    type: chance
+    Customer 80:
+        type: terminal
+        p: 0.4
+        payoff: 6000
+    Customer 100:
+        type: terminal
+        p: 0.2
+        payoff: 16000
+    Customer 120:
+        type: terminal
+        p: 0.4
+        payoff: 21000
+        
